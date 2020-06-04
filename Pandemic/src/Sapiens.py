@@ -29,20 +29,7 @@ class Sapiens:
         self.numberInfected = numberInfected
         self.step = step
         
-    # def infectedMove(self) -> None:
-    #     """A infected sapiens move
-    #
-    #     :param sapiens: infected sapiens
-    #     :return:
-    #     """
-    #     self.step += 1
-    #     if randrange(0, 2) == 0:
-    #         self.state = State.DEAD
-    #         self.velocity.row = 0
-    #         self.velocity.col = 0
-    #     else:
-    #         if self.step == 22:
-    #             self.state = State.RECOVERED
+    
 
     def infectedMove(self) -> None:
         """A infected sapiens move
@@ -52,7 +39,7 @@ class Sapiens:
         """
         self.step += 1
         if self.step == 22:
-            if randrange(0, 2) == 0:
+            if randrange(0, 1000) >= 500:
                 self.state = State.DEAD
                 self.velocity.row = 0
                 self.velocity.col = 0
