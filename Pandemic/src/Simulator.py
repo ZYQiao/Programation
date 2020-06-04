@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import tkinter
-from random import randrange, randint
+from random import randrange, randint, random, shuffle
 import time
+
+from Collisions import Collisions
 from Field import Field
 from Sapiens import Sapiens
 from Location import Location, Velocity
@@ -9,7 +11,7 @@ from Randomizer import Randomizer
 from SimulatorView import SimulatorView
 
 from State import State
-
+from Stats import Stats
 
 
 class Simulator():
@@ -31,6 +33,7 @@ class Simulator():
                         State.INFECTED: 'red',
                         State.RECOVERED: 'spring green',
                         State.DEAD: 'black'}
+        self._stats = Stats()
         self.reset()
 
     def runLongSimulation(self) -> None:
@@ -39,7 +42,7 @@ class Simulator():
         """
         self.simulate(500,50)
 
-    def simulate(self, numSteps, numSapiens, delay=1) -> None:
+    def simulate(self, numSapiens=50, delay=1.0) -> None:
         """Run the simulation from its current state for
         the given number of steps.
 
@@ -47,22 +50,28 @@ class Simulator():
         """
         self.step = 0
         self.populate(numSapiens)
-        while self.step < numSteps:
+        while self._stats.isViable(self._sapiens):
             self.simulateOneStep()
+            print("R: "+ str(self._stats.calculateR(self._sapiens)))
             # self.step += 1
             time.sleep(delay)
+
 
     def simulateOneStep(self) -> None:
         """Run the simulation from its current state for a single step.
         """
+        collisions = Collisions()
         self.step += 1
         #  all _sapiens in motion
-        for p in self._sapiens:
-            for p_tmp in self._sapiens:
-                if p_tmp.location != p.location:
-                    p.collisions(p_tmp.location)
+        for i in range(len(self._sapiens)-1):
+            for j in range(i+1,len(self._sapiens)):
+                if self._sapiens[i].location.row == self._sapiens[j].location.row \
+                        and self._sapiens[i].location.col == self._sapiens[j].location.col:
+                    collisions.collisions(self._sapiens[i],self._sapiens[j])
         for sapien in self._sapiens:
+            sapien.setColour(self._colours[sapien.state])
             sapien.move()
+            sapien.setColour(self._colours[sapien.state])
         self._view.showStatus(self.step, self._sapiens)
 
     def reset(self):
@@ -82,12 +91,17 @@ class Simulator():
             velocity = Velocity(randrange(-1,1),randrange(-1,1))# generate random -1 <= random velocity < 1
             colour = self._colours[State.SUSCEPTIBLE]
             state = State.SUSCEPTIBLE
-            self._sapiens.append(Sapiens(location, velocity, colour, self._field, state, ))# append particle with location and velocity
+            self._sapiens.append(Sapiens(location, velocity, colour, self._field, state, 0, 0))# append particle with location and velocity
+        if len(self._sapiens) > 0:
+            shuffle(self._sapiens)
+            for i in range(int(len(self._sapiens)/10)):
+                self._sapiens[i].state = State.INFECTED
 
 
 if __name__ == '__main__':
     root = tkinter.Tk()
     root.title('Brownian Motion Simulation')
     simulator = Simulator(root)
+    simulator.simulate()
     root.mainloop()
 

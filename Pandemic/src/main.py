@@ -8,9 +8,8 @@ def main():
     root = tkinter.Tk()
     root.title('Brownian Motion Simulation')
     simulator = Simulator(root)
-    numSteps = input("Please input numSteps：")
-    numParticles = input("Please input numParticles：")
-    simulator.simulate(int(numSteps),int(numParticles),0.05)
+    numSapienses = input("Please input numSapienses：")
+    simulator.simulate(int(numSapienses),1)
     root.mainloop()
     
 
