@@ -9,7 +9,7 @@ def main():
     root.title('Brownian Motion Simulation')
     simulator = Simulator(root)
     numSapienses = input("Please input numSapienses：")
-    simulator.simulate(int(numSapienses),1)
+    simulator.simulate(int(numSapienses),0.1)
     root.mainloop()
     
 

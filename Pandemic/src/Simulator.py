@@ -72,7 +72,7 @@ class Simulator():
             sapien.setColour(self._colours[sapien.state])
             sapien.move()
             sapien.setColour(self._colours[sapien.state])
-        self._view.showStatus(self.step, self._sapiens)
+        self._view.showStatus(self.step, self._sapiens, self._stats.state(self._sapiens))
 
     def reset(self):
         """Reset the simulation to a starting location.
@@ -80,7 +80,7 @@ class Simulator():
         self.step = 0
         self._sapiens = []
         self.populate(0)
-        self._view.showStatus(self.step, self._sapiens)
+        self._view.showStatus(self.step, self._sapiens, self._stats.state(self._sapiens))
 
     def populate(self, numSapiens=50):
         """Populates the _field with randomly-locationed _sapiens.
@@ -94,7 +94,7 @@ class Simulator():
             self._sapiens.append(Sapiens(location, velocity, colour, self._field, state, 0, 0))# append particle with location and velocity
         if len(self._sapiens) > 0:
             shuffle(self._sapiens)
-            for i in range(int(len(self._sapiens)/10)):
+            for i in range(int(len(self._sapiens)/3)):
                 self._sapiens[i].state = State.INFECTED
 
 

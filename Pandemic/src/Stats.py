@@ -51,3 +51,19 @@ class Stats:
                                                                                      + number[State.RECOVERED]
                                                                                      + number[State.DEAD])\
             if number[State.INFECTED] > 0 else 0
+
+    def state(self, sapienses:list) -> str:
+        number = {state: 0 for state in State}
+        totalInfected = 0
+        for sapiens in sapienses:
+            number[sapiens.state] += 1
+            if sapiens.state == State.INFECTED:
+                totalInfected += sapiens.numberInfected
+        l = number[State.INFECTED]
+        s = number[State.SUSCEPTIBLE]
+        r = number[State.RECOVERED]
+        d = number[State.DEAD]
+        R = totalInfected / number[State.INFECTED] * number[State.SUSCEPTIBLE] / (number[State.SUSCEPTIBLE]
+                                                                              + number[State.RECOVERED]
+                                                                              + number[State.DEAD]) if number[State.INFECTED] > 0 else 0
+        return "['S="+str(s)+ "','L="+str(l)+"','R="+str(r)+"','D="+str(d)+"']R="+str(R)

@@ -14,7 +14,7 @@ class SimulatorView():
     # class attributes
     _EMPTY_COLOR = 'white'
     _STEP_PREFIX = "Step: "
-    _POPULATION_PREFIX = "Population: "
+    _STATE_PREFIX = "States: "
 
     def __init__(self, root: object, size):
         """Create a view with the given size.
@@ -23,20 +23,21 @@ class SimulatorView():
         self.frame = tkinter.Frame(root)
         # graphics initializations
         self.stepLabel = tkinter.Label(self.frame, text=SimulatorView._STEP_PREFIX)
-        self.stepLabel.grid(row=1, column=1)
-        self.population = tkinter.Label(self.frame, text=SimulatorView._POPULATION_PREFIX)
-        self.population.grid(row=1, column=2)
+        self.stepLabel.grid(row=1, column=0)
+        self.states = tkinter.Label(self.frame, text=SimulatorView._STATE_PREFIX)
+        self.states.grid(row=1, column=1)
         self.fieldView = FieldView(self.frame, size)
         self.fieldView.grid(row=0, columnspan=3)
         self.frame.grid()
 
-    def showStatus(self, step, sapiens: list) -> None:
+    def showStatus(self, step, sapiens: list, State) -> None:
         """Show the current status of the field.
 
         :step: Which iteration step it is.
         :particles: List of particle for calculating status.
         """
         self.stepLabel['text'] = SimulatorView._STEP_PREFIX + str(step)
+        self.states['text'] = SimulatorView._STATE_PREFIX + State
         self.fieldView.preparePaint()
         self.fieldView.delete('all')
         for sapien in sapiens:
