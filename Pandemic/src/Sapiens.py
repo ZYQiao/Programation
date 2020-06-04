@@ -29,7 +29,7 @@ class Sapiens:
         self.numberInfected = numberInfected
         self.step = step
         
-    
+
 
     def infectedMove(self) -> None:
         """A infected sapiens move

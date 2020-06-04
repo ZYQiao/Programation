@@ -10,7 +10,7 @@ from State import State
 
 class Stats:
     def __init__(self):
-        self.R_0 = 10.5
+
         # the probability of passing the virus
         #  upon contact between sapienses
         self.INFECTION_RATE = 0.5

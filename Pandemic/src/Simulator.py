@@ -94,7 +94,7 @@ class Simulator():
             self._sapiens.append(Sapiens(location, velocity, colour, self._field, state, 0, 0))# append particle with location and velocity
         if len(self._sapiens) > 0:
             shuffle(self._sapiens)
-            for i in range(int(len(self._sapiens)/3)):
+            for i in range(int(len(self._sapiens)/5)):
                 self._sapiens[i].state = State.INFECTED
 
 
